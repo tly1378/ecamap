@@ -1,0 +1,10 @@
+# 编译输出
+bin/
+obj/
+
+# Visual Studio相关
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
