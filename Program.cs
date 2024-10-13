@@ -27,23 +27,22 @@ internal class Program
         string outputPath = options.OutputFilePath;
         string csprojPath = options.UnityProjectAssemblyPath;
         csprojPath = Path.GetFullPath(csprojPath);
-        List<string> dllPaths = null;
-        dllPaths = new List<string>() { csprojPath };
+        var dllPaths = new List<string> { csprojPath };
         dllPaths.AddRange(Directory.GetFiles(options.UnityEngineAssembliesPath, "*.dll"));
         dllPaths.Add(options.ECAPath);
 
         ECATool.sDebugLog = Console.WriteLine;
 
-        Assembly[] serverAssemblies = new Assembly[dllPaths.Count];
+        var serverAssemblies = new Assembly[dllPaths.Count];
         for (int i = 0; i < dllPaths.Count; i++)
         {
             string dllPath = dllPaths[i];
 
-            AssemblyName assemblyName = AssemblyName.GetAssemblyName(dllPath);
+            var assemblyName = AssemblyName.GetAssemblyName(dllPath);
             Console.WriteLine($"全名: {assemblyName.FullName}");
             Console.WriteLine($"版本: {assemblyName.Version}");
             Console.WriteLine($"文化信息: {(string.IsNullOrEmpty(assemblyName.CultureInfo?.Name) ? "neutral" : assemblyName.CultureInfo.Name)}");
-            Console.WriteLine($"公钥标记: {BitConverter.ToString(assemblyName.GetPublicKeyToken()).Replace("-", "").ToLower()}");
+            Console.WriteLine($"公钥标记: {BitConverter.ToString(assemblyName.GetPublicKeyToken()!).Replace("-", "").ToLower()}");
             Console.WriteLine($"路径: {dllPath}\n");
 
             serverAssemblies[i] = Assembly.LoadFrom(dllPath);
